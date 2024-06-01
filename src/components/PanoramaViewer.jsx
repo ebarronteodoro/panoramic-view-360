@@ -86,7 +86,6 @@ const PanoramaViewer = () => {
 
   return (
     <div className='main-container'>
-      <h1>Hi, Welcome</h1>
       <div className='image-container' ref={imageContainerRef} />
       {isPortrait && (
         <div className='rotate-message'>
