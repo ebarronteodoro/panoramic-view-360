@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { Viewer, ImagePanorama } from 'panolens'
 import '../index.css'
 import MobileRotatedIcon from '../icons/MobileRotatedIcon'
+import AsideBar from './AsideBar'
 
 const PanoramaViewer = () => {
   const [isPortrait, setIsPortrait] = useState(false)
@@ -88,10 +89,18 @@ const PanoramaViewer = () => {
 
   return (
     <div className='main-container'>
+      <AsideBar>
+        <h2>Test 360 😎</h2>
+        <ul>
+          <li>Esto</li>
+          <li>es una</li>
+          <li>prueba</li>
+        </ul>
+      </AsideBar>
       <div className='image-container' ref={imageContainerRef} />
       {isPortrait && (
         <div className='rotate-message'>
-          <MobileRotatedIcon />
+          <MobileRotatedIcon width='90' height='90' />
           Por favor, gire el dispositivo
         </div>
       )}
