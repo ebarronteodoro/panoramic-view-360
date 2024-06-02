@@ -6,7 +6,8 @@ import '../index.css'
 
 const PanoramaViewer = () => {
   const [isPortrait, setIsPortrait] = useState(false)
-  const mainContainerRef = useRef(null)
+  const imageContainerRef = useRef(null)
+  const viewerRef = useRef(null)
   let lastTouchEnd = 0
 
   const handleOrientationChange = () => {
@@ -18,15 +19,16 @@ const PanoramaViewer = () => {
   }
 
   const toggleFullscreen = () => {
+    const mainContainer = document.documentElement
     if (!document.fullscreenElement) {
-      if (mainContainerRef.current.requestFullscreen) {
-        mainContainerRef.current.requestFullscreen()
-      } else if (mainContainerRef.current.mozRequestFullScreen) { // Firefox
-        mainContainerRef.current.mozRequestFullScreen()
-      } else if (mainContainerRef.current.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        mainContainerRef.current.webkitRequestFullscreen()
-      } else if (mainContainerRef.current.msRequestFullscreen) { // IE/Edge
-        mainContainerRef.current.msRequestFullscreen()
+      if (mainContainer.requestFullscreen) {
+        mainContainer.requestFullscreen()
+      } else if (mainContainer.mozRequestFullScreen) { // Firefox
+        mainContainer.mozRequestFullScreen()
+      } else if (mainContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        mainContainer.webkitRequestFullscreen()
+      } else if (mainContainer.msRequestFullscreen) { // IE/Edge
+        mainContainer.msRequestFullscreen()
       }
     } else {
       if (document.exitFullscreen) {
@@ -65,8 +67,8 @@ const PanoramaViewer = () => {
   useEffect(() => {
     const panoramaImage = new ImagePanorama('images/image1.jpeg')
 
-    const viewer = new Viewer({
-      container: mainContainerRef.current,
+    viewerRef.current = new Viewer({
+      container: imageContainerRef.current,
       autoRotate: true,
       autoRotateSpeed: 0.3,
       controlBar: true,
@@ -74,21 +76,19 @@ const PanoramaViewer = () => {
       cameraFov: 55
     })
 
-    viewer.add(panoramaImage)
+    viewerRef.current.add(panoramaImage)
 
-    const mainContainer = mainContainerRef.current
-    mainContainer.addEventListener('dblclick', toggleFullscreen)
-    mainContainer.addEventListener('touchend', handleTouchEnd)
+    const imageContainer = imageContainerRef.current
+    imageContainer.addEventListener('touchend', handleTouchEnd)
 
     // Cleanup event listeners
     return () => {
-      mainContainer.removeEventListener('dblclick', toggleFullscreen)
-      mainContainer.removeEventListener('touchend', handleTouchEnd)
+      imageContainer.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
 
   return (
-    <div className='main-container' ref={mainContainerRef}>
+    <div className='main-container'>
       <AsideBar>
         <h2>Test 360 😎</h2>
         <ul>
@@ -97,7 +97,7 @@ const PanoramaViewer = () => {
           <li>prueba</li>
         </ul>
       </AsideBar>
-      <div className='image-container' />
+      <div className='image-container' ref={imageContainerRef} />
       {isPortrait && (
         <div className='rotate-message'>
           <MobileRotatedIcon width='90' height='90' />
