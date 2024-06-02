@@ -1,12 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { Viewer, ImagePanorama } from 'panolens'
-import '../index.css'
 import MobileRotatedIcon from '../icons/MobileRotatedIcon'
 import AsideBar from './AsideBar'
+import '../index.css'
 
 const PanoramaViewer = () => {
   const [isPortrait, setIsPortrait] = useState(false)
-  const imageContainerRef = useRef(null)
+  const mainContainerRef = useRef(null)
   let lastTouchEnd = 0
 
   const handleOrientationChange = () => {
@@ -19,14 +19,14 @@ const PanoramaViewer = () => {
 
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
-      if (imageContainerRef.current.requestFullscreen) {
-        imageContainerRef.current.requestFullscreen()
-      } else if (imageContainerRef.current.mozRequestFullScreen) { // Firefox
-        imageContainerRef.current.mozRequestFullScreen()
-      } else if (imageContainerRef.current.webkitRequestFullscreen) { // Chrome, Safari and Opera
-        imageContainerRef.current.webkitRequestFullscreen()
-      } else if (imageContainerRef.current.msRequestFullscreen) { // IE/Edge
-        imageContainerRef.current.msRequestFullscreen()
+      if (mainContainerRef.current.requestFullscreen) {
+        mainContainerRef.current.requestFullscreen()
+      } else if (mainContainerRef.current.mozRequestFullScreen) { // Firefox
+        mainContainerRef.current.mozRequestFullScreen()
+      } else if (mainContainerRef.current.webkitRequestFullscreen) { // Chrome, Safari and Opera
+        mainContainerRef.current.webkitRequestFullscreen()
+      } else if (mainContainerRef.current.msRequestFullscreen) { // IE/Edge
+        mainContainerRef.current.msRequestFullscreen()
       }
     } else {
       if (document.exitFullscreen) {
@@ -66,7 +66,7 @@ const PanoramaViewer = () => {
     const panoramaImage = new ImagePanorama('images/image1.jpeg')
 
     const viewer = new Viewer({
-      container: imageContainerRef.current,
+      container: mainContainerRef.current,
       autoRotate: true,
       autoRotateSpeed: 0.3,
       controlBar: true,
@@ -76,19 +76,19 @@ const PanoramaViewer = () => {
 
     viewer.add(panoramaImage)
 
-    const imageContainer = imageContainerRef.current
-    imageContainer.addEventListener('dblclick', toggleFullscreen)
-    imageContainer.addEventListener('touchend', handleTouchEnd)
+    const mainContainer = mainContainerRef.current
+    mainContainer.addEventListener('dblclick', toggleFullscreen)
+    mainContainer.addEventListener('touchend', handleTouchEnd)
 
     // Cleanup event listeners
     return () => {
-      imageContainer.removeEventListener('dblclick', toggleFullscreen)
-      imageContainer.removeEventListener('touchend', handleTouchEnd)
+      mainContainer.removeEventListener('dblclick', toggleFullscreen)
+      mainContainer.removeEventListener('touchend', handleTouchEnd)
     }
   }, [])
 
   return (
-    <div className='main-container'>
+    <div className='main-container' ref={mainContainerRef}>
       <AsideBar>
         <h2>Test 360 😎</h2>
         <ul>
@@ -97,7 +97,7 @@ const PanoramaViewer = () => {
           <li>prueba</li>
         </ul>
       </AsideBar>
-      <div className='image-container' ref={imageContainerRef} />
+      <div className='image-container' />
       {isPortrait && (
         <div className='rotate-message'>
           <MobileRotatedIcon width='90' height='90' />
