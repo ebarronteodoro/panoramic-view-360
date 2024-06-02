@@ -8,15 +8,11 @@ const AsideBar = ({ children }) => {
     setIsOpen(!isOpen)
   }
 
-  const handleTouchStart = () => {
-    toggleSidebar()
-  }
-
   return (
     <aside className={`aside-bar ${isOpen ? 'open' : 'closed'}`}>
       <div className='content-asidebar'>
         {children}
-        <div className='close-button' onClick={toggleSidebar} onTouchStart={handleTouchStart}>
+        <div className='close-button' onClick={toggleSidebar}>
           <ChevronLeftIcon width='45' height='45' />
         </div>
       </div>
