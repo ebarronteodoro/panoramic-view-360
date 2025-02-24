@@ -65,7 +65,6 @@ const VirtualTour = () => {
           firstScene: 'sala',
           autoLoad: true,
           showControls: false, // 🔹 Oculta todos los controles de Pannellum
-          mouseZoom: false, // 🔹 Desactiva el zoom con el mouse
           keyboardZoom: false, // 🔹 Desactiva el zoom con el teclado
           disableKeyboardCtrl: true, // 🔹 Desactiva todos los controles de teclado
           sceneFadeDuration: 1000
@@ -76,15 +75,15 @@ const VirtualTour = () => {
             panorama: '/tour/sala.png',
             hotSpots: [
               {
-                pitch: -10,
-                yaw: 45,
+                pitch: 0,
+                yaw: -25,
                 cssClass: 'custom-hotspot',
                 text: 'Ir a Cocina',
                 sceneId: 'cocina'
               },
               {
-                pitch: 0,
-                yaw: -25,
+                pitch: -8,
+                yaw: -53,
                 cssClass: 'custom-hotspot',
                 text: 'Ir a Comedor',
                 sceneId: 'comedor'
@@ -143,8 +142,8 @@ const VirtualTour = () => {
                 sceneId: 'sala'
               },
               {
-                pitch: -5,
-                yaw: -30,
+                pitch: -15,
+                yaw: -56,
                 cssClass: 'custom-hotspot',
                 text: 'Ir a Habitacion',
                 sceneId: 'habitacion'
@@ -156,15 +155,15 @@ const VirtualTour = () => {
             panorama: '/tour/habitacion.png',
             hotSpots: [
               {
-                pitch: -10,
-                yaw: 45,
+                pitch: -30,
+                yaw: -115,
                 cssClass: 'custom-hotspot',
                 text: 'Ir a Comedor',
                 sceneId: 'comedor'
               },
               {
-                pitch: -5,
-                yaw: -30,
+                pitch: -30,
+                yaw: -105,
                 cssClass: 'custom-hotspot',
                 text: 'Ir a Baño',
                 sceneId: 'baño'
