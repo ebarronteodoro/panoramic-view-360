@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { Viewer, ImagePanorama } from 'panolens'
+import { Viewer, ImagePanorama, Infospot } from 'panolens'
 import MobileRotatedIcon from '../icons/MobileRotatedIcon'
 import AsideBar from './AsideBar'
 import '../index.css'
 
 const PanoramaViewer = () => {
   const [isPortrait, setIsPortrait] = useState(false)
+  const [currentImage, setCurrentImage] = useState(1)
   const imageContainerRef = useRef(null)
   const viewerRef = useRef(null)
   let lastTouchEnd = 0
@@ -23,28 +24,34 @@ const PanoramaViewer = () => {
     if (!document.fullscreenElement) {
       if (mainContainer.requestFullscreen) {
         mainContainer.requestFullscreen()
-      } else if (mainContainer.mozRequestFullScreen) { // Firefox
+      } else if (mainContainer.mozRequestFullScreen) {
+        // Firefox
         mainContainer.mozRequestFullScreen()
-      } else if (mainContainer.webkitRequestFullscreen) { // Chrome, Safari and Opera
+      } else if (mainContainer.webkitRequestFullscreen) {
+        // Chrome, Safari and Opera
         mainContainer.webkitRequestFullscreen()
-      } else if (mainContainer.msRequestFullscreen) { // IE/Edge
+      } else if (mainContainer.msRequestFullscreen) {
+        // IE/Edge
         mainContainer.msRequestFullscreen()
       }
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen()
-      } else if (document.mozCancelFullScreen) { // Firefox
+      } else if (document.mozCancelFullScreen) {
+        // Firefox
         document.mozCancelFullScreen()
-      } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+      } else if (document.webkitExitFullscreen) {
+        // Chrome, Safari and Opera
         document.webkitExitFullscreen()
-      } else if (document.msExitFullscreen) { // IE/Edge
+      } else if (document.msExitFullscreen) {
+        // IE/Edge
         document.msExitFullscreen()
       }
     }
   }
 
   const handleTouchEnd = () => {
-    const now = (new Date()).getTime()
+    const now = new Date().getTime()
     if (now - lastTouchEnd <= 300) {
       toggleFullscreen()
     }
@@ -76,7 +83,12 @@ const PanoramaViewer = () => {
       cameraFov: 55
     })
 
+    const hotspot = new Infospot(500, '/images/hotspot-icon.png')
+    hotspot.position.set(5000, 0, 0)
+    // hotspot.addEventListener('click', () => togglePanorama())
+
     viewerRef.current.add(panoramaImage)
+    viewerRef.current.add(hotspot)
 
     const imageContainer = imageContainerRef.current
     imageContainer.addEventListener('touchend', handleTouchEnd)
@@ -90,12 +102,8 @@ const PanoramaViewer = () => {
   return (
     <div className='main-container'>
       <AsideBar>
-        <h2>Test 360 😎</h2>
-        <ul>
-          <li>Esto</li>
-          <li>es una</li>
-          <li>prueba</li>
-        </ul>
+        <img src='/logo-soil.png' alt='Logo de Soil' />
+        <h1>Tour Panorámico</h1>
       </AsideBar>
       <div className='image-container' ref={imageContainerRef} />
       {isPortrait && (
